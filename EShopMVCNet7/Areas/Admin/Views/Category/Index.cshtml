@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["title"] = "Quản lý danh mục";
+}
+
+<div class="row">
+    <div class="col-12 mt-3">
+        <table class="table table-bordered table-hover text-center ">
+            <colgroup>
+                <col style="width: 10%" />
+                <col style="width: 75%" />
+                <col style="width: 15%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Tên</th>
+                    <th><a asp-action="Update" asp-route-id="" class="btn btn-primary">Thêm danh mục</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                
+               @* @foreach (var item in Model)
+                {
+                <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Slug</td>
+                <td>
+                <a asp-action="Update" asp-route-id="" class="btn btn-success">Sửa</a>
+                <a asp-action="Delete" asp-route-id="" onclick="return confirm('Bạn có muốn xóa ?')" class="btn btn-danger">Xóa</a>
+                </td>
+                </tr>
+                }*@
+            </tbody>
+        </table>
+        <partial name="_Pager" model="Model" />
+    </div>
+</div>

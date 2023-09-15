@@ -21,5 +21,17 @@ namespace EShopMVCNet7.Models
         //    var connection = "Server=DESKTOP-9SAS8HE\\VITAMINCO;Database=RazorPage;Trusted_Connection=True;Encrypt=False";
         //    optionsBuilder.UseSqlServer(connection);
         //}
+
+        //sữa đổi độ dài của bảng AppCategory
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //bảng AppCategory
+            modelBuilder.Entity<AppCategory>()
+                        .Property(c => c.Name)
+                        .HasMaxLength(200);
+            modelBuilder.Entity<AppCategory>()
+                        .Property(c => c.Slug)
+                        .HasMaxLength(200);
+        }
     }
 }

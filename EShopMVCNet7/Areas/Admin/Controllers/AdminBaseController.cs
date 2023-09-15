@@ -12,5 +12,14 @@ namespace EShopMVCNet7.Areas.Admin.Controllers
         {
             _db = db;
         }
+
+        protected void SetSuccessMesg(string msg)
+        {
+            TempData["_SuccessMesg"] = msg;
+        }
+        protected void SetErrorMesg(string msg)
+        {
+            TempData["_ErrorMesg"] = msg;
+        }
     }
 }
