@@ -5,7 +5,7 @@
     <link href="~/lib/awesome-notifications/style.min.css" rel="stylesheet" />
 }
 @section scripts{
-    <script src="~/lib/alpinejs/cdn.min.js"></script>
+    <script defer src="~/lib/alpinejs/cdn.min.js"></script>
     <script src="~/lib/awesome-notifications/index.var.min.js"></script>
     <script src="~/js/admin/category.js" asp-append-version="true"></script>  @*asp-append-version="true": tự cập nhật file*@
 }
@@ -25,7 +25,7 @@
                     <th>Tên</th>
                     <th>
                         <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoryUpdinModal">Thêm danh mục</button>
+                        <button type="button" class="btn btn-primary" x-on:click="openModalAdd()"> Thêm danh mục</button>
                     </th>
                 </tr>
             </thead>
@@ -36,8 +36,8 @@
                         <td x-text="i.id"></td> <!--id và name là của sql cần phải viết thường-->
                         <td x-text="i.name"></td>
                         <td>
-                            <a asp-action="Update" asp-route-id="" class="btn btn-success">Sửa</a>
-                            <a asp-action="Delete" asp-route-id="" onclick="return confirm('Bạn có muốn xóa ?')" class="btn btn-danger">Xóa</a>
+                            <button class="btn btn-outline-success" x-on:click="openModalUpdate()"><i class="fa-regular fa-pen-to-square"></i></button>
+                            <button class="btn btn-outline-danger" x-on:click="openModalUpdate()"><i class="fa-regular fa-trash-can"></i></button>
                         </td>
                     </tr>
                 </template>
@@ -51,18 +51,19 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Thêm danh mục</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel" x-text="_modalSetting.title"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mt-1">
                         <label class="form-label">Tên danh mục</label>
-                        <input class="form-control"/>
+                        <input class="form-control" x-model="_updinData.name"/>
+                        <small x-text="_updinData.slug" class="fst-italic"></small>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" x-text="_modalSetting.primaryButtonText">Understood</button>
                 </div>
             </div>
         </div>
