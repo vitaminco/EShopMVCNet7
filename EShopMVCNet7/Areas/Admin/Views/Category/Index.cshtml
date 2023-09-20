@@ -1,8 +1,17 @@
 ﻿@{
     ViewData["title"] = "Quản lý danh mục";
 }
+@section head{
+    <link href="~/lib/awesome-notifications/style.min.css" rel="stylesheet" />
+}
+@section scripts{
+    <script src="~/lib/alpinejs/cdn.min.js"></script>
+    <script src="~/lib/awesome-notifications/index.var.min.js"></script>
+    <script src="~/js/admin/category.js" asp-append-version="true"></script>  @*asp-append-version="true": tự cập nhật file*@
+}
 
-<div class="row">
+<div class="row" x-data="category">
+
     <div class="col-12 mt-3">
         <table class="table table-bordered table-hover text-center ">
             <colgroup>
@@ -14,25 +23,50 @@
                 <tr>
                     <th>Id</th>
                     <th>Tên</th>
-                    <th><a asp-action="Update" asp-route-id="" class="btn btn-primary">Thêm danh mục</a></th>
+                    <th>
+                        <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoryUpdinModal">Thêm danh mục</button>
+                    </th>
                 </tr>
             </thead>
             <tbody>
-                
-               @* @foreach (var item in Model)
-                {
-                <tr>
-                <td>@item.Id</td>
-                <td>@item.Name</td>
-                <td>@item.Slug</td>
-                <td>
-                <a asp-action="Update" asp-route-id="" class="btn btn-success">Sửa</a>
-                <a asp-action="Delete" asp-route-id="" onclick="return confirm('Bạn có muốn xóa ?')" class="btn btn-danger">Xóa</a>
-                </td>
-                </tr>
-                }*@
+                <!--vòng lặp-->
+                <template x-for="i in _list">
+                    <tr>
+                        <td x-text="i.id"></td> <!--id và name là của sql cần phải viết thường-->
+                        <td x-text="i.name"></td>
+                        <td>
+                            <a asp-action="Update" asp-route-id="" class="btn btn-success">Sửa</a>
+                            <a asp-action="Delete" asp-route-id="" onclick="return confirm('Bạn có muốn xóa ?')" class="btn btn-danger">Xóa</a>
+                        </td>
+                    </tr>
+                </template>
             </tbody>
         </table>
         <partial name="_Pager" model="Model" />
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="categoryUpdinModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Thêm danh mục</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mt-1">
+                        <label class="form-label">Tên danh mục</label>
+                        <input class="form-control"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
