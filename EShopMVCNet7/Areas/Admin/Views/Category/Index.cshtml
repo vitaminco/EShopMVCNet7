@@ -25,10 +25,11 @@
                     <th>Tên</th>
                     <th>
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" x-on:click="openModalAdd()"> Thêm danh mục</button>
+                        <button type="button" class="btn btn-primary" x-on:click="openModalAdd()"><i class="bi bi-plus-circle-dotted"></i> Thêm danh mục</button>
                     </th>
                 </tr>
             </thead>
+
             <tbody>
                 <!--vòng lặp-->
                 <template x-for="i in _list">
@@ -36,8 +37,8 @@
                         <td x-text="i.id"></td> <!--id và name là của sql cần phải viết thường-->
                         <td x-text="i.name"></td>
                         <td>
-                            <button class="btn btn-outline-success" x-on:click="openModalUpdate()"><i class="fa-regular fa-pen-to-square"></i></button>
-                            <button class="btn btn-outline-danger" x-on:click="openModalUpdate()"><i class="fa-regular fa-trash-can"></i></button>
+                            <button class="btn btn-outline-success" x-on:click="openModalUpdate(i.id)"><i class="bi bi-pencil-square"></i> Sửa</button>
+                            <button class="btn btn-outline-danger" x-on:click="deleteCategory(i.id)"><i class="bi bi-trash"></i> Xóa</button>
                         </td>
                     </tr>
                 </template>
@@ -63,7 +64,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" x-text="_modalSetting.primaryButtonText">Understood</button>
+                    <button type="button" class="btn btn-primary" x-text="_modalSetting.primaryButtonText" x-on:click="saveCategory()">Understood</button>
                 </div>
             </div>
         </div>
