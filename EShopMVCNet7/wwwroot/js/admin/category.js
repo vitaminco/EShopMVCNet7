@@ -2,6 +2,7 @@
     Alpine.data("category", () => ({
         _list: [],
         _modal: {},
+        _noti: {},
         //thay đổi cái phần url: tên và link
         _modalSetting: {
             title: "",
@@ -16,7 +17,16 @@
         },
 
         init() {
+            var config = {
+                durations: {
+                    success: 2000
+                },
+                labels: {
+                    success: "Thành công"
+                }
+            };
             this._modal = new bootstrap.Modal("#categoryUpdinModal");
+            this._noti = new AWN(config); //AWN là awesome-notifications
             //chuyển về chữ thường của ô input
             this.$watch("_updinData.name", (newVal, oldVal) => {
                 this._updinData.slug = newVal.toLowerCase()
@@ -77,18 +87,23 @@
             })
                 .then((res) => {
                     this._modal.hide();
+                    return res.text();
+                })
+                .then(text => {
+                    this._noti.success(text);
                     this.refreshData();
                 })
                 .catch(err => {
                     alert("Lỗi !!!");
                 });
         },
-        async deleteCategory(id) {
+        deleteCategory(id) {
             var url = "/Admin/Category/Delete/" + id;
-            if (confirm("Bạn có muốn xóa ??")) {
+            this._noti.confirm("Chắc chưa", async () => {
                 await fetch(url);
+                this._noti.success("Xóa thành công !");
                 this.refreshData();
-            }
+            });
         },
     }));
 });

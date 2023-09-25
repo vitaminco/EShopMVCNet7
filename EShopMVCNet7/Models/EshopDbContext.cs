@@ -32,6 +32,28 @@ namespace EShopMVCNet7.Models
             modelBuilder.Entity<AppCategory>()
                         .Property(c => c.Slug)
                         .HasMaxLength(200);
+            
+            //bảng AppProduct
+            modelBuilder.Entity<AppProduct>()
+                        .Property(m => m.Name)
+                        .HasMaxLength(200);
+            modelBuilder.Entity<AppProduct>()
+                        .Property(m => m.Slug)
+                        .HasMaxLength(200);
+            modelBuilder.Entity<AppProduct>()
+                        .Property(m => m.Summary)
+                        .HasMaxLength(200);
+            modelBuilder.Entity<AppProduct>()
+                        .Property(m => m.Content)
+                        .HasMaxLength(1000);
+            modelBuilder.Entity<AppProduct>()
+                        .Property(m => m.CoverImg)
+                        .HasMaxLength(1000);
+            //Cấu hình khóa ngoại
+            modelBuilder.Entity<AppProduct>()
+                        .HasOne(m => m.Category) //bảng AppProduct
+                        .WithMany(m => m.Products) //bảng Category
+                        .HasForeignKey(m => m.CategoryId); //khóa ngoại
         }
     }
 }

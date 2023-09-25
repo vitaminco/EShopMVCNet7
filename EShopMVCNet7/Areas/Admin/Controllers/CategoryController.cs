@@ -47,6 +47,7 @@ namespace EShopMVCNet7.Areas.Admin.Controllers
                 };
                 _db.Add(category);
                 _db.SaveChanges();
+                return Ok($"Thêm danh mục [{item.Name}] thành công");
             }
             else
             {
@@ -60,7 +61,7 @@ namespace EShopMVCNet7.Areas.Admin.Controllers
                     _db.SaveChanges();
                 }
             }
-            return Ok("OK baby");
+            return Ok($"Cập nhật danh mục [{item.Name}] thành công");
         }
         //cập nhật
         public AppCategory Detail(int id)
@@ -78,7 +79,7 @@ namespace EShopMVCNet7.Areas.Admin.Controllers
                 _db.SaveChanges(true);
             }
            
-            return Ok();
+            return Ok("Xóa danh mục thành công");
         }
     }
 }
