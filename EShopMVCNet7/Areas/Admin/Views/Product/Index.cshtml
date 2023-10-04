@@ -1,0 +1,74 @@
+﻿@model IEnumerable<EShopMVCNet7.Areas.Admin.ViewModels.Product.ProductListitemVM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="row">
+    <h1>Danh sách sản phẩm</h1>
+
+    <table class="table table-bordered table-hover text-center">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Tên sản phẩm</th>
+                <th>Hình ảnh</th>
+                <th>Tồn kho</th>
+                <th>Gía</th>
+                <th>Lượt xem</th>
+                <th>Danh mục</th>
+                <th>
+                    <a asp-action="Create" class="btn btn-outline-primary"><i class="bi bi-plus-circle-dotted"></i> Tạo sản phẩm</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td class="text-center">
+                        <img src="@item.CoverImg" style="width:50px; height:50px;object-fit: cover" class="rounded rounded-circle shadow">
+                    </td>
+                    <td>@item.InStock</td>
+                    <td>
+                        <!--xử lý giá khuyến mãi-->
+                        @{
+                            var isDiscount = false;
+                            if (item.DiscountPrice.HasValue)
+                            {
+                                var startDate = item.DiscountFrom ?? DateTime.MinValue;
+                                var endDate = item.DiscountTo ?? DateTime.MaxValue;
+                                isDiscount = startDate <= DateTime.Now && endDate >= DateTime.Now;
+                                /*
+                                if(startDate <= DateTime.Now && endDate>= DateTime.Now)
+                                {
+                                isDiscount = true;
+                                }
+                                 */
+                                
+                            }
+                        }
+                        @if (isDiscount)
+                        {
+                            <s>@item.Price.ToString("#,# vnđ")</s>
+                            <span class="d-block">@item.DiscountPrice?.ToString("#,# vnđ")</span>
+                        }
+                        else
+                        {
+                            <span>@item.Price.ToString("#,# vnđ")</span>
+                        }
+                    </td>
+                    <td>@item.View</td>
+                    <td>@item.CategoryName</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <partial name="_Pager" model="Model" />
+</div>

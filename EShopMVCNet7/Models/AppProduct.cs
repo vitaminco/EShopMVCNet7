@@ -2,6 +2,10 @@
 {
     public class AppProduct
     {
+        public AppProduct()
+        {
+            ProductImages = new HashSet<AppProductImage>();
+        }
         public int Id { get; set; }
         public string Name { get; set; }
         public string Slug { get; set; }
@@ -19,6 +23,8 @@
         public DateTime? CreatedAt { get; set; }
 
         // 1SP có 1DM
-        public AppCategory Category { get; set; }  
+        public AppCategory Category { get; set; }
+        //1 sp có nhiều hình ảnh
+        public ICollection<AppProductImage> ProductImages { get; set; }
     }
 }
