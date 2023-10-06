@@ -62,9 +62,8 @@
                     <td>@item.View</td>
                     <td>@item.CategoryName</td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-success"><i class="bi bi-pencil-square"></i> Sửa</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Bạn có muốn xóa ?')" class="btn btn-danger"><i class="bi bi-trash"></i> Xóa</a>
                     </td>
                 </tr>
             }

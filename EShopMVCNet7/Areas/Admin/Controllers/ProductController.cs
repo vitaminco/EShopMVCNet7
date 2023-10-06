@@ -95,6 +95,78 @@ namespace EShopMVCNet7.Areas.Admin.Controllers
             }
             return RedirectToAction(nameof(Create));
         }
+        
+        public IActionResult Update(int id)
+        {
+            var data = _db.AppProducts
+                .Select(p => new ProductUpdinVM
+                {
+                    CategoryId = p.CategoryId.GetValueOrDefault(0),
+                    Id = p.Id,
+                    Content = p.Content,
+                    DiscountFrom = p.DiscountFrom,
+                    DiscountTo= p.DiscountTo,
+                    DiscountPrice= p.DiscountPrice,
+                    InStock= p.InStock,
+                    Name= p.Name,
+                    Price= p.Price,
+                    Slug= p.Slug,
+                    Summary= p.Summary,
+                    CoverImgPath = p.CoverImg,
+                    //Lấy dữ liệu Path từ ảnh sản phẩm cho vào list
+                    ProductImgPath = p.ProductImages.Select(pi => pi.Path).ToList()
+                })
+                .Where(p => p.Id == id).SingleOrDefault();
+
+            if (data == null)
+            {
+                SetErrorMesg("Không tìm thấy sản phẩm");
+                return RedirectToAction(nameof(Index));
+            }
+
+            //lấy dữ liệu category từ database
+            var cate = _db.AppCategories
+                                .OrderByDescending(c => c.Id)
+                                .ToList();
+            //ép kiểu để sử dụng được với asp-items
+            ViewBag.Category = new SelectList(cate, "Id", "Name", data.CategoryId);
+            return View(data);
+        }
+        public IActionResult Delete(int id, [FromServices] IWebHostEnvironment env)
+        {
+            var data = _db.AppProducts.Find(id);
+
+            if (data == null)
+            {
+                SetErrorMesg("Không tìm thấy sản phẩm");
+                return RedirectToAction(nameof(Index));
+            }
+            //lấy ảnh của sản phẩm bị xóa
+            var listImgs = _db.AppProductImages
+                                .Where(x => x.ProductId == id)
+                                .ToList();
+            try
+            {
+            //Xóa dữ liệu trong db
+            _db.Remove(data);
+                //xóa ảnh sản phẩm trong disk
+                //ảnh cover
+                System.IO.File.Delete(Path.Combine(env.WebRootPath, data.CoverImg.TrimStart('/')));
+                //ảnh chi tiết
+                foreach(var img in listImgs)
+                {
+                    System.IO.File.Delete(Path.Combine(env.WebRootPath, img.Path.TrimStart('/')));
+                }
+
+                SetSuccessMesg($"Xóa sản phẩm [{data.Name}] thành công!");
+            }catch (Exception ex)
+            {
+                SetErrorMesg("Xóa không được Chi tiết: " + ex.Message);
+            }
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
         /// <summary>
         /// Upload và trả về file name, file được lưu trong thư mục upload
         /// </summary>

@@ -32,5 +32,8 @@ namespace EShopMVCNet7.Areas.Admin.ViewModels.Product
        
         //1 sp có nhiều hình ảnh
         public IFormFileCollection ProductImages { get; set; }
+
+        public string? CoverImgPath { get; set; }
+        public List<string>? ProductImgPath {  get; set; } = new List<string>(); //tránh lỗi 500
     }
 }

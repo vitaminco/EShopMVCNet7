@@ -99,10 +99,15 @@
         },
         deleteCategory(id) {
             var url = "/Admin/Category/Delete/" + id;
-            this._noti.confirm("Chắc chưa", async () => {
-                await fetch(url);
-                this._noti.success("Xóa thành công !");
-                this.refreshData();
+            this._noti.confirm("Chắc chưa", () => {
+                fetch(url).then(res => {
+                    if (res.status == 200) {
+                        this._noti.success("Xóa thành công !");
+                    } else {
+                        this._noti.alert("Lỗi rồi! không xóa được ");
+                    }
+                });
+                    this.refreshData();
             });
         },
     }));

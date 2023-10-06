@@ -53,7 +53,8 @@ namespace EShopMVCNet7.Models
             modelBuilder.Entity<AppProduct>()
                         .HasOne(m => m.Category) //bảng AppProduct
                         .WithMany(m => m.Products) //bảng Category
-                        .HasForeignKey(m => m.CategoryId); //khóa ngoại
+                        .HasForeignKey(m => m.CategoryId) //khóa ngoại
+                        .OnDelete(DeleteBehavior.NoAction);
             //Bảng AppProductImage
             modelBuilder.Entity<AppProductImage>()
                         .Property(i => i.Path)
@@ -63,6 +64,7 @@ namespace EShopMVCNet7.Models
                         .HasOne(i => i.Product) //bảng AppProduct
                         .WithMany(i => i.ProductImages) //bảng ProductImage
                         .HasForeignKey(i => i.ProductId); //khóa ngoại
+                        
         }
     }
 }
