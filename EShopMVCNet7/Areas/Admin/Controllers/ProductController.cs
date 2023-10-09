@@ -2,7 +2,9 @@
 using EShopMVCNet7.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using X.PagedList;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EShopMVCNet7.Areas.Admin.Controllers
 {
@@ -95,7 +97,7 @@ namespace EShopMVCNet7.Areas.Admin.Controllers
             }
             return RedirectToAction(nameof(Create));
         }
-        
+
         public IActionResult Update(int id)
         {
             var data = _db.AppProducts
@@ -105,13 +107,13 @@ namespace EShopMVCNet7.Areas.Admin.Controllers
                     Id = p.Id,
                     Content = p.Content,
                     DiscountFrom = p.DiscountFrom,
-                    DiscountTo= p.DiscountTo,
-                    DiscountPrice= p.DiscountPrice,
-                    InStock= p.InStock,
-                    Name= p.Name,
-                    Price= p.Price,
-                    Slug= p.Slug,
-                    Summary= p.Summary,
+                    DiscountTo = p.DiscountTo,
+                    DiscountPrice = p.DiscountPrice,
+                    InStock = p.InStock,
+                    Name = p.Name,
+                    Price = p.Price,
+                    Slug = p.Slug,
+                    Summary = p.Summary,
                     CoverImgPath = p.CoverImg,
                     //Lấy dữ liệu Path từ ảnh sản phẩm cho vào list
                     ProductImgPath = p.ProductImages.Select(pi => pi.Path).ToList()
@@ -132,6 +134,77 @@ namespace EShopMVCNet7.Areas.Admin.Controllers
             ViewBag.Category = new SelectList(cate, "Id", "Name", data.CategoryId);
             return View(data);
         }
+        [HttpPost]
+        public IActionResult Update(int id, ProductUpdinVM productVM, [FromServices] IWebHostEnvironment env)
+        {
+            ModelState.Remove("CoverImg");
+            ModelState.Remove("ProductImages");
+            //xác thực dữ liệu
+            if (ModelState.IsValid == false)
+            {
+                return View(productVM);
+            }
+            //tìm
+            var oldProduct = _db.AppProducts.Find(id);
+
+            if (oldProduct == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            //update
+            oldProduct.CategoryId = productVM.CategoryId;
+            oldProduct.Content = productVM.Content;
+            oldProduct.DiscountFrom = productVM.DiscountFrom;
+            oldProduct.DiscountTo = productVM.DiscountTo;
+            oldProduct.DiscountPrice = productVM.DiscountPrice;
+            oldProduct.InStock = productVM.InStock;
+            oldProduct.Name = productVM.Name;
+            oldProduct.Price = productVM.Price;
+            oldProduct.Slug = productVM.Slug;
+            oldProduct.Summary = productVM.Summary;
+
+            //hình ảnh bìa(CoverImg)
+            if (productVM.CoverImg is not null)
+            {
+                //xóa ảnh bìa củ ảnh cover
+                System.IO.File.Delete(env.WebRootPath+ oldProduct.CoverImg);
+                //Update ảnh bìa mới
+                oldProduct.CoverImg = UploadFile(productVM.CoverImg, env.WebRootPath);
+            }
+            if(productVM.ProductImages is not null)
+            {
+                //xóa sản phẩm trong db
+                var pImgs = _db.AppProductImages.Where(i => i.ProductId == id).ToList();
+                //xóa file
+                foreach(var img in pImgs)
+                {
+                    System.IO.File.Delete(env.WebRootPath + img.Path);
+                }
+                _db.RemoveRange(pImgs);
+                //upload ảnh sản phẩm(nhiều ảnh)
+                foreach (var img in productVM.ProductImages)
+                {
+                    if (img is not null)
+                    {
+                        var productImg = new AppProductImage();
+                        productImg.Path = UploadFile(img, env.WebRootPath);
+                        oldProduct.ProductImages.Add(productImg);
+                    }
+                }
+            }
+            //save
+            try
+            {
+                _db.SaveChanges();
+                SetSuccessMesg("Cập nhật thành công!!");
+            }
+            catch (Exception ex)
+            {
+                SetErrorMesg("Cập nhật không thành công!!" + ex.Message);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
         public IActionResult Delete(int id, [FromServices] IWebHostEnvironment env)
         {
             var data = _db.AppProducts.Find(id);
@@ -147,19 +220,20 @@ namespace EShopMVCNet7.Areas.Admin.Controllers
                                 .ToList();
             try
             {
-            //Xóa dữ liệu trong db
-            _db.Remove(data);
+                //Xóa dữ liệu trong db
+                _db.Remove(data);
                 //xóa ảnh sản phẩm trong disk
                 //ảnh cover
                 System.IO.File.Delete(Path.Combine(env.WebRootPath, data.CoverImg.TrimStart('/')));
                 //ảnh chi tiết
-                foreach(var img in listImgs)
+                foreach (var img in listImgs)
                 {
                     System.IO.File.Delete(Path.Combine(env.WebRootPath, img.Path.TrimStart('/')));
                 }
 
                 SetSuccessMesg($"Xóa sản phẩm [{data.Name}] thành công!");
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 SetErrorMesg("Xóa không được Chi tiết: " + ex.Message);
             }
