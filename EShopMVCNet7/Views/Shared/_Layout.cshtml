@@ -12,6 +12,8 @@
     @RenderSection("head",false) <!--section style-->
 </head>
 <body>
+    <vc:nav-bar></vc:nav-bar> <!--Gọi tới ViewComponent-->
+
     <div class="container">
         <partial name="_Notify" />
         @RenderBody()

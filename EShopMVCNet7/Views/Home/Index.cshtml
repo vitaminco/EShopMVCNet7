@@ -1,8 +1,60 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿
+@using EShopMVCNet7.ViewModels.Home
+@model IEnumerable<ProductListItemVM>
+@section head{
+    <style>
+        .product-sumary {
+            height: 90px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+        }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        .product-name {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    </style>
+}
+<div class="row mt-3">
+    <h6 class="text-center display-6">@ViewBag.Title</h6>
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3 my-2">          
+            <div class="card">
+                <img src="@item.CoverImg" class="card-img-top" style="height:250px; object-fit:cover">
+                <hr>
+                <div class="card-body">
+                    <h5 class="card-title product-name">@item.Name</h5>
+                    <span class="badge bg-info">@item.CategoryName</span>
+
+                    @{
+                        var isDiscount = false;
+                        if (item.DiscountPrice.HasValue)
+                        {
+                            var startDate = item.DiscountFrom ?? DateTime.MinValue;
+                            var endDate = item.DiscountTo ?? DateTime.MaxValue;
+                            isDiscount = startDate <= DateTime.Now && endDate >= DateTime.Now;
+                        }
+                    }
+                        @if (isDiscount)
+                        {
+                            <p class="card-text">
+                                <s class="badge bg-secondary">@item.Price.ToString("#,# vnđ")</s>
+                                <span class="badge bg-success">@item.DiscountPrice?.ToString("#,# vnđ")</span>
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="card-text">
+                                <span class="badge bg-success">Gía: @item.Price.ToString("#,# vnđ")</span>
+                            </p>
+                        }
+                    <p class="card-text small product-sumary">@item.Summary</p>
+                </div>
+            </div>
+        </div>
+    }
 </div>
