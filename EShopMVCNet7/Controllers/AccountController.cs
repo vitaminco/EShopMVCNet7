@@ -39,5 +39,10 @@ namespace EShopMVCNet7.Controllers
             
             return RedirectToAction(nameof(Register));//nameof là để ở trên đổi tên thì dưới nó cx đổi theo
         }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
     }
 }
