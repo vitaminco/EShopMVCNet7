@@ -1,0 +1,42 @@
+﻿@model AppProduct
+
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+}
+
+<div class="row my-3">
+    <h1>Chi tiết sản phẩm</h1>
+    <div class="col">
+        <h1 class="display-6">@Model.Name</h1>
+        <h2>
+            @{
+                var isDiscount = false;
+                if (Model.DiscountPrice.HasValue)
+                {
+                    var startDate = Model.DiscountFrom ?? DateTime.MinValue;
+                    var endDate = Model.DiscountTo ?? DateTime.MaxValue;
+                    isDiscount = startDate <= DateTime.Now && endDate >= DateTime.Now;
+                }
+            }
+            @if (isDiscount)
+            {
+                <s class="badge bg-secondary">@Model.Price.ToString("#,# vnđ")</s>
+                <span class="badge bg-success">@Model.DiscountPrice?.ToString("#,# vnđ")</span>
+            }
+            else
+            {
+                <span class="badge bg-success">Gía: @Model.Price.ToString("#,# vnđ")</span>
+            }
+        </h2>
+        <p>Thêm lúc: @Model.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</p>
+        <!--slide-->
+        <partial name="_Slide" model="Model.ProductImages"/> <!--chuyển slide ảnh sản phẩm-->
+        <p class="fw-bold">Số lượng: @Model.Summary</p>
+
+        <h5 class="mt-3">Mô tả sản phẩm</h5>
+        <div>
+            @Html.Raw(Model.Content)
+        </div>
+    </div>
+</div>
+

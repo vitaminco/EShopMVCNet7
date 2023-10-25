@@ -1,9 +1,10 @@
-﻿namespace EShopMVCNet7.ViewModels.Account
+﻿using Microsoft.Build.Framework;
+
+namespace EShopMVCNet7.ViewModels.Account
 {
     public class LoginVM
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
-
+        [Required] public string Username { get; set; }
+        [Required] public string Password { get; set; }
     }
 }

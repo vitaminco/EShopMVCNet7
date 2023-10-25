@@ -1,8 +1,11 @@
 ﻿using EShopMVCNet7.Models;
 using EShopMVCNet7.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using X.PagedList;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace EShopMVCNet7.Controllers
 {
@@ -13,7 +16,8 @@ namespace EShopMVCNet7.Controllers
         }
 
 
-        [Route("/{slug?}/{cateId:int?}")]
+        [Route("/san-pham/{slug?}/{cateId:int?}")]
+        [Route("/")] //trang chủ
         public IActionResult Index(int page = 1, int? cateId = null, string? slug = "")
         {
             ViewBag.Title = "Trang chủ";
@@ -60,6 +64,20 @@ namespace EShopMVCNet7.Controllers
                                       }).OrderByDescending(p => p.Id)
                                         .ToPagedList(page, PER_PAGE);
             return View("Index",data);
+        }
+        public IActionResult DetailProducts(int id)
+        {
+            //Load ảnh sản phẩm và chi tiết sản phẩm
+            var data = _db.AppProducts
+                           .Include(p => p.ProductImages)
+                           .Where(p =>p.Id == id)
+                           .SingleOrDefault();
+            if(data == null)
+            {
+                SetErrorMesg("Không tìm thấy");
+                return RedirectToAction(nameof(Index));
+            }
+            return View(data);
         }
     }
 }

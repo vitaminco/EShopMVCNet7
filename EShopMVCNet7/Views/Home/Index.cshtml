@@ -1,5 +1,4 @@
-﻿
-@using EShopMVCNet7.ViewModels.Home
+﻿@using EShopMVCNet7.ViewModels.Home
 @model IEnumerable<ProductListItemVM>
 @section head{
     <style>
@@ -22,7 +21,7 @@
     <h6 class="text-center display-6">@ViewBag.Title</h6>
     @foreach (var item in Model)
     {
-        <div class="col-md-3 my-2">          
+        <a style="text-decoration:none" asp-action="DetailProducts" asp-route-id="@item.Id" class="col-md-3 my-2">
             <div class="card">
                 <img src="@item.CoverImg" class="card-img-top" style="height:250px; object-fit:cover">
                 <hr>
@@ -39,22 +38,26 @@
                             isDiscount = startDate <= DateTime.Now && endDate >= DateTime.Now;
                         }
                     }
-                        @if (isDiscount)
-                        {
-                            <p class="card-text">
-                                <s class="badge bg-secondary">@item.Price.ToString("#,# vnđ")</s>
-                                <span class="badge bg-success">@item.DiscountPrice?.ToString("#,# vnđ")</span>
-                            </p>
-                        }
-                        else
-                        {
-                            <p class="card-text">
-                                <span class="badge bg-success">Gía: @item.Price.ToString("#,# vnđ")</span>
-                            </p>
-                        }
+                    @if (isDiscount)
+                    {
+                        <p class="card-text">
+                            <s class="badge bg-secondary">@item.Price.ToString("#,# vnđ")</s>
+                            <span class="badge bg-success">@item.DiscountPrice?.ToString("#,# vnđ")</span>
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="card-text">
+                            <span class="badge bg-success">Gía: @item.Price.ToString("#,# vnđ")</span>
+                        </p>
+                    }
+
+                    <a asp-action="AddToCart" asp-controller="Cart" asp-route-productId ="@item.Id" class="btn btn-outline-danger d-block my-3">
+                        <i class="bi bi-cart3"></i> Giỏi hàng
+                    </a>
                     <p class="card-text small product-sumary">@item.Summary</p>
                 </div>
             </div>
-        </div>
+        </a>
     }
 </div>
