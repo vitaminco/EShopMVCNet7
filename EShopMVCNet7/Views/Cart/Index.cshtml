@@ -1,0 +1,52 @@
+﻿@using EShopMVCNet7.ViewModels.Cart
+@model IEnumerable<CartListItemVM>
+
+@if (Model == null || Model.Any() == false)
+{
+    <h2 class="display-5 text-center">Giỏ hàng rỗng!!!</h2>
+    return;
+}
+<h1 class="text-center display-6">GIỎ HÀNG</h1>
+<div class="row">
+    <div class="col-12">
+        <table class="table table-bordered table-hover text-center">
+            <colgroup>
+                <col style="width:10%" />
+                <col style="width:37%" />
+                <col style="width:12%" />
+                <col style="width:5%" />
+                <col style="width:12%" />
+            </colgroup>
+            <thead>
+                <tr style="vertical-align: middle">
+                    <th>Ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                    <th>Tổng: @Model.Sum(x => x.QuantityInCart * x.FinalPrice).ToString("#,# vnđ")</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="text-center" style="vertical-align: middle">
+                        <td class="text-center">
+                            <img src="@item.CoverImg" class="rounded-circle shadow" style="width: 70px; height:70px; object-fit:cover;" />
+                        </td>
+                        <td>@item.Name</td>
+                        <td>@item.FinalPrice.ToString("#,# vnđ")</td>
+                        <td>@item.QuantityInCart</td>
+                        <td>@((item.QuantityInCart * item.FinalPrice).ToString("#,# vnđ"))</td>
+                        <td class="text-center" style="vertical-align: middle">
+                            <a asp-action="RemoveProduct" asp-route-productId="@item.Id" onclick="return confirm('Bạn có muốn xóa ?')" class="btn btn-danger"><i class="bi bi-trash"></i> Xóa </a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+

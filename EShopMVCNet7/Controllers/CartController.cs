@@ -43,7 +43,15 @@ namespace EShopMVCNet7.Controllers
             HttpContext.Session.SetInt32("Cart_" + productId, quantity + 1);
 
             var referer = HttpContext.Request.Headers["referer"].ToString();
+            SetSuccessMesg("Thêm vào giỏ hàng thành công");
             return Redirect(referer);
+        }
+        //xóa sp trong cart
+        public IActionResult RemoveProduct([FromQuery] int productId)
+        {
+            HttpContext.Session.Remove("Cart_" + productId);
+            SetSuccessMesg("Xóa thành công");
+            return RedirectToAction(nameof(Index));
         }
     }
 }

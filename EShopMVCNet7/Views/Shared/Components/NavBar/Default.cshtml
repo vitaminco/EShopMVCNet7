@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<AppCategory>
 
-
+@*
 <nav class="navbar navbar-expand-lg navbar-light bg-danger-subtle shadow">
     <div class="container">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,6 +50,109 @@
             </div>
             <form class="d-flex" role="search" asp-action="Search" asp-controller="Home" method="get">
                 <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
+            </form>
+        </div>
+    </div>
+</nav>
+
+*@
+<!---->
+<nav class="navbar navbar-expand-md navbar-light fixed-top shadow" style="background: #fffffff5;z-index:3;position: sticky;">
+    <div class="container-fluid mx-5" id="navbarSupportedContent">
+        <a class="nav-link toolbar sidebar" href="/"><i class="bi bi-house-heart"></i> Home</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                @foreach (var item in Model)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link toolbar sidebar" asp-action="Index" asp-route-slug="@item.Slug" asp-route-cateId="@item.Id">@item.Name</a>
+                    </li>
+                }
+            </ul>
+            @*{{-- sreach --}}*@
+            <form class="d-flex" role="search" asp-action="Search" asp-controller="Home" method="get">
+                <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
+            </form>
+
+            <form class="d-flex">
+                <div class="toolbar sidebar">
+                    <a asp-action="Index" asp-controller="Cart" class="position-relative toolbar">
+                        <i class="bi bi-cart4"></i>
+                        Giỏ hàng
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </a>
+                </div>
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    @if (Context.GetUserId() == null)
+                    {//chưa đăng nhập
+                        <li class="nav-item">
+                            <a class="btn mx-2 toolbar sidebar" asp-action="Register" asp-controller="Account">Đăng kí</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn toolbar sidebar" asp-action="Login" asp-controller="Account">Đăng nhập</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <!--=-->
+                        <div class="toolbar sidebar">
+                            @*{{-- tên --}}*@
+                            <div tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Disabled popover">
+                                <i class="bi bi-person-circle"></i>
+
+                                <div class="sidebar-item muinhon toolbar"
+                                     style="margin:23px 2px 0 -262px;background-color: cornsilk;border-radius: 40px;width: 356px;" disabled>
+                                    <div style="text-align: center;">
+                                        <i class="bi bi-person-circle" style="margin: 0 0 10px 0;font-size: 8rem;"></i>
+
+                                        <br>
+                                        <a class="nav-link" href="#">
+                                            <i class="bi bi-pencil-square"></i> Thay đổi
+                                        </a>
+
+                                    </div>
+                                    @*{{--  --}}*@
+                                    <div class=" d-flex flex-column flex-shrink-0 p-3 bg-light"
+                                         style="width: 100%;margin: 20px 0 10px 0; box-shadow: 0 2px 3px 0 rgb(0, 0, 0, 0.1)">
+                                        <ul class="nav nav-pills flex-column mb-auto">
+                                            <li class="nav-item ani-nav">
+                                                <a href="/" class="nav-link link-dark">
+                                                    <i class="bi bi-house"></i>
+                                                    Home
+                                                </a>
+                                            </li>
+                                            @if (Context.IsAdmin())
+                                            {
+                                                <li class="nav-item ani-nav">
+                                                    <a asp-action="Index" asp-controller="Product" asp-area="Admin" class="nav-link link-dark">
+                                                        <i class="bi bi-person"></i>
+                                                        Admin
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                        <hr>
+                                        <div class="dropdown">
+                                            <a class="btn btn-outline-danger" asp-action="Logout" asp-controller="Account">
+                                                <i class="bi bi-box-arrow-right"></i> ĐĂNG XUẤT
+                                            </a>
+                                        </div>
+                                    </div>
+                                    @*{{--  --}}*@
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </ul>
             </form>
         </div>
     </div>
