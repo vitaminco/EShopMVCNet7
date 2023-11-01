@@ -64,7 +64,25 @@ namespace EShopMVCNet7.Models
                         .HasOne(i => i.Product) //bảng AppProduct
                         .WithMany(i => i.ProductImages) //bảng ProductImage
                         .HasForeignKey(i => i.ProductId); //khóa ngoại
-                        
+
+            //Bảng AppOrder
+            modelBuilder.Entity<AppOrder>()
+                .Property(m => m.CustomerAddress)
+                .HasMaxLength(500);
+            modelBuilder.Entity<AppOrder>()
+               .Property(m => m.CustomerEmail)
+               .HasMaxLength(100);
+            modelBuilder.Entity<AppOrder>()
+               .Property(m => m.CustomerName)
+               .HasMaxLength(100);
+            modelBuilder.Entity<AppOrder>()
+               .Property(m => m.CustomerPhone)
+               .HasMaxLength(20);
+            //khóa ngoại
+            modelBuilder.Entity<AppOrder>()
+                .HasMany(m => m.Detail)
+                .WithOne(m => m.AppOrder)
+                .HasForeignKey(m => m.OrderId);
         }
     }
 }

@@ -6,4 +6,12 @@
         ROLECUSTOMER = 1,
         ROLEADMIN = 2,
     }
+    public enum OrderStatus
+    {
+        /*Đánh số tự động  0-> n*/
+        PENDING,
+        APPROVED,
+        DELIVERED,
+        CANCELED 
+    }
 }
