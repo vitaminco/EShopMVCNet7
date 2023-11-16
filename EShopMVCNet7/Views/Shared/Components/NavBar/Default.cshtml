@@ -58,7 +58,7 @@
 *@
 <!---->
 <nav class="navbar navbar-expand-md navbar-light fixed-top shadow" style="background: #fffffff5;z-index:3;position: sticky;">
-    <div class="container-fluid mx-5" id="navbarSupportedContent">
+    <div class="container-fluid mx-5">
         <a class="nav-link toolbar sidebar" href="/"><i class="bi bi-house-heart"></i> Home</a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -66,7 +66,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 @foreach (var item in Model)
                 {
@@ -138,6 +138,7 @@
                                                         Admin
                                                     </a>
                                                 </li>
+                                               
                                             }
                                         </ul>
                                         <hr>

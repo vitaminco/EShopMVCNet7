@@ -1,0 +1,43 @@
+﻿@model IEnumerable<EShopMVCNet7.Models.AppOrder>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table class="table table-bordered table-hover text-center">
+    <thead>
+
+        <tr>
+           <th>ID</th>
+           <th>Tổng giá</th>
+           <th>Tên khách hàng</th>
+           <th>SDT</th>
+           <th>Email</th>
+           <th>Địa chỉ</th>
+           <th>Trạng thái</th>
+           <th>Ngày tạo</th>
+           <th></th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.TotalPrice.ToString("#,# vnđ")</td>
+                <td>@item.CustomerName</td>
+                <td>@item.CustomerPhone</td>
+                <td>@item.CustomerEmail</td>
+                <td>@item.CustomerAddress</td>
+                <td>@item.Status</td>
+                <td>@item.CreatedAt?.ToString("dd/MM/yy HH:mm")</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Bạn có muốn xóa ?')" class="btn btn-danger"><i class="bi bi-trash"></i> Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

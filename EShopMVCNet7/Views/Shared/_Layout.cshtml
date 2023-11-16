@@ -10,125 +10,14 @@
     <link href="~/lib/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
     @RenderSection("head",false) <!--section style-->
-    @*style*@
-    <style>
-        /**/
-        body {
-            padding-top: 0px;
-            padding-bottom: 1px;
-            color: #5a5a5a;
-            background: #cecccc;
-        }
-
-        .sidebar {
-            box-shadow: 0 2px 3px 0 rgb(0, 0, 0, 0.1);
-            border-radius: 2px;
-        }
-
-        .sidebar-item {
-            display: none;
-            position: absolute;
-            margin: 12px 0 0 -135px;
-            transition: ease-in-out color 0.2s;
-        }
-
-        .sidebar:hover .sidebar-item {
-            display: block;
-            box-shadow: 0 1px 20px 0 rgb(0, 0, 0, 0.05);
-        }
-
-        .muinhon::after {
-            content: "";
-            display: block;
-            border-width: 12px 20px;
-            border-style: solid;
-            border-color: transparent transparent #f1d132 transparent;
-            position: absolute;
-            top: -23px;
-            left: 249px;
-            z-index: 2;
-        }
-
-        .muinhon::before {
-            content: "";
-            display: block;
-            width: 148px;
-            height: 20px;
-            right: 22px;
-            position: absolute;
-            top: -20px;
-        }
-
-        .muinhon-item::before {
-            content: "";
-            display: block;
-            width: 144px;
-            right: 134px;
-            height: 20px;
-            position: absolute;
-            top: -20px;
-        }
-
-        .toolbar {
-            margin: 10px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            color: black;
-            padding: 10px;
-            transition: ease-in-out color 0.2s;
-        }
-
-            .toolbar:hover {
-                background-color: beige;
-                border-radius: 40px;
-                color: #f1d132;
-            }
-
-        /*sanpham*/
-
-        .products {
-            display: block;
-            margin: 10px 2px;
-            text-decoration: none;
-            background-color: #fff;
-            width: 209px;
-            position: relative;
-            border: 1px solid transparent;
-            border-radius: 2px;
-            box-shadow: 0 2px 3px 0 rgb(0, 0, 0, 0.1);
-            transition: transform ease-in 0.1s;
-            /*dịch lên xuống*/
-            will-change: transform;
-            /*cần khai báo transform*/
-        }
-
-            /*hover độ nhòe cái boder*/
-            .products:hover {
-                transform: translateY(-3px);
-                /*nhảy lên xuống khi hover*/
-                box-shadow: 0 1px 20px 0 rgb(0, 0, 0, 0.05);
-                border-color: #f1d132;
-            }
-
-            .products img {
-                transform: translateX(0px);
-                animation: float 6s ease-out infinite;
-            }
-
-            /* bóng hình */
-            .products img {
-                box-shadow: 13px 20px 13px -3px rgb(0 0 0 / 71%)
-            }
-    </style>
 </head>
 <body>
     <vc:nav-bar></vc:nav-bar> <!--Gọi tới ViewComponent-->
-
     <div class="container">
         <partial name="_Notify" />
         @RenderBody()
     </div>
+    <partial name="_Footer" />
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script defer src="~/lib/alpinejs/cdn.min.js"></script><!--Defer để đame bảo đặt đâu cx đc-->
     @RenderSection("scripts",false)

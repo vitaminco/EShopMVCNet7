@@ -1,6 +1,7 @@
 ﻿using EShopMVCNet7.Models;
 using EShopMVCNet7.ViewModels.Cart;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EShopMVCNet7.Controllers
@@ -14,12 +15,12 @@ namespace EShopMVCNet7.Controllers
         {
             var cartIds = HttpContext.Session.Keys
                 .Where(c => c.StartsWith("Cart_"))
-                .Select(c =>Convert.ToInt32(c.Substring(5)))
+                .Select(c => Convert.ToInt32(c.Substring(5)))
                 .ToList();
-            if(cartIds != null)
+            if (cartIds != null)
             {
                 //lấy thông tin sản phẩm
-                var dataProducts = _db.AppProducts.Where(p=>cartIds.Contains(p.Id))
+                var dataProducts = _db.AppProducts.Where(p => cartIds.Contains(p.Id))
                     .Select(p => new CartListItemVM
                     {
                         Id = p.Id,
@@ -29,12 +30,19 @@ namespace EShopMVCNet7.Controllers
                         DiscountFrom = p.DiscountFrom,
                         DiscountPrice = p.DiscountPrice,
                         DiscountTo = p.DiscountTo,
-                        QuantityInCart = HttpContext.Session.GetInt32("Cart_" + p.Id)??0,
+                        QuantityInCart = HttpContext.Session.GetInt32("Cart_" + p.Id) ?? 0,
                     })
                     .ToList();
                 return View(dataProducts);
             }
             return View();
+        }
+        public IActionResult Detail(int page = 1)
+        {
+            var data = _db.AppOrders
+                .OrderByDescending(o => o.Id)
+                .ToPagedList(page, PER_PAGE);
+            return View(data);
         }
         public IActionResult AddToCart([FromQuery] int productId)
         {

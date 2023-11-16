@@ -46,6 +46,7 @@
                         <td>@((item.QuantityInCart * item.FinalPrice).ToString("#,# vnđ"))</td>
                         <td class="text-center" style="vertical-align: middle">
                             <a asp-action="RemoveProduct" asp-route-productId="@item.Id" onclick="return confirm('Bạn có muốn xóa ?')" class="btn btn-danger"><i class="bi bi-trash"></i> Xóa </a>
+                            <a class="btn btn-primary" asp-action="Detail" asp-route-id="@item.Id">Danh sách đã đặt</a>
                         </td>
                     </tr>
                 }

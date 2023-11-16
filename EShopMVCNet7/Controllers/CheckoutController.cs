@@ -24,14 +24,14 @@ namespace EShopMVCNet7.Controllers
                 CreatedAt = DateTime.Now
             };
             //Trích xuất thông tin từ giỏ hàng
-            var cartIds = HttpContext.Session.Keys
+            var productIds = HttpContext.Session.Keys
                 .Where(c => c.StartsWith("Cart_"))
                 .Select(c => Convert.ToInt32(c.Substring(5)))
                 .ToList();
-            if (cartIds != null)
+            if (productIds != null)
             {
                 //lấy thông tin sản phẩm
-                var dataProducts = _db.AppProducts.Where(p => cartIds.Contains(p.Id))
+                var dataProducts = _db.AppProducts.Where(p => productIds.Contains(p.Id))
                     .Select(p => new CartListItemVM
                     {
                         Id = p.Id,
@@ -62,7 +62,7 @@ namespace EShopMVCNet7.Controllers
                 _db.SaveChanges();
                 SetSuccessMesg("Đơn hàng đã được đặt hàng thành công");
             }
-                return RedirectToAction("Index", "Home");/*Trang nào , controller nào*/
+                return RedirectToAction("Detail", "Cart");/*Trang nào , controller nào*/
         }
     }
 }

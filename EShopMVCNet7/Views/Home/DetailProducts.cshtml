@@ -20,6 +20,7 @@
                 <div data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false"
                      aria-controls="multiCollapseExample1 multiCollapseExample2">
                     <div style=" padding: 10px; font-weight: 700; font-size: 1.2rem">
+                        <h2 style="overflow: hidden;">@Model.Name</h2>
                         @{
                             var isDiscount = false;
                             if (Model.DiscountPrice.HasValue)
@@ -39,7 +40,7 @@
                             <span class="badge bg-success">Gía: @Model.Price.ToString("#,# vnđ")</span>
                         }
                         <p>Thêm lúc: @Model.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</p>
-                        <p class="fw-bold">Số lượng: @Model.Summary</p>
+                        <p class="fw-bold" style="max-height: 50px;overflow: hidden;">Số lượng: @Model.Summary</p>
 
                     </div>
                     <b style="cursor:pointer">Mô tả: </b>
