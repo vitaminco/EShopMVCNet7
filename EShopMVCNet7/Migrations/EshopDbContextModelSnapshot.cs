@@ -45,6 +45,43 @@ namespace EShopMVCNet7.Migrations
                     b.ToTable("AppCategories");
                 });
 
+            modelBuilder.Entity("EShopMVCNet7.Models.AppEvens", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContentEven")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("CoverImgEven")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DiscountFrom")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DiscountTo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameEven")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppEvens");
+                });
+
             modelBuilder.Entity("EShopMVCNet7.Models.AppOrder", b =>
                 {
                     b.Property<int>("Id")
@@ -158,6 +195,10 @@ namespace EShopMVCNet7.Migrations
                     b.Property<DateTime?>("DiscountTo")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("EvenId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
                     b.Property<int>("InStock")
                         .HasColumnType("int");
 
@@ -185,6 +226,8 @@ namespace EShopMVCNet7.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("EvenId");
 
                     b.ToTable("AppProducts");
                 });
@@ -279,7 +322,15 @@ namespace EShopMVCNet7.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("EShopMVCNet7.Models.AppEvens", "Even")
+                        .WithMany("EvenProducts")
+                        .HasForeignKey("EvenId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("Even");
                 });
 
             modelBuilder.Entity("EShopMVCNet7.Models.AppProductImage", b =>
@@ -296,6 +347,11 @@ namespace EShopMVCNet7.Migrations
             modelBuilder.Entity("EShopMVCNet7.Models.AppCategory", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("EShopMVCNet7.Models.AppEvens", b =>
+                {
+                    b.Navigation("EvenProducts");
                 });
 
             modelBuilder.Entity("EShopMVCNet7.Models.AppOrder", b =>

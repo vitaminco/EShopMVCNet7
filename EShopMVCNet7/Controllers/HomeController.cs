@@ -1,6 +1,7 @@
 ﻿using EShopMVCNet7.Models;
 using EShopMVCNet7.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using X.PagedList;
@@ -40,15 +41,24 @@ namespace EShopMVCNet7.Controllers
                 DiscountTo = p.DiscountTo,
                 Summary = p.Summary,
                 CategoryName = p.Category.Name,
+                
             })
                             .OrderByDescending(p => p.Id)
                             .ToPagedList(page, PER_PAGE);
+
+            //lấy dữ liệu từ database
+            var events = _db.AppEvens
+                               .OrderByDescending(c => c.Id)
+                               .ToList();
+
+            //
+            ViewBag.Even = events;
             return View(data);
         }
         [Route("/tim-kiem")]
         public IActionResult Search(int page = 1, string keyword = "")
         {
-            ViewBag.Title =$"Kết quả tìm kiếm cho '{keyword}'";
+            ViewBag.Title = $"Kết quả tìm kiếm cho '{keyword}'";
             var data = _db.AppProducts.Where(p => p.Name.Contains(keyword) || p.Summary.Contains(keyword))
                                       .Select(p => new ProductListItemVM
                                       {
@@ -63,21 +73,22 @@ namespace EShopMVCNet7.Controllers
                                           CategoryName = p.Category.Name,
                                       }).OrderByDescending(p => p.Id)
                                         .ToPagedList(page, PER_PAGE);
-            return View("Index",data);
+            return View("Index", data);
         }
         public IActionResult DetailProducts(int id)
         {
             //Load ảnh sản phẩm và chi tiết sản phẩm
             var data = _db.AppProducts
                            .Include(p => p.ProductImages)
-                           .Where(p =>p.Id == id)
+                           .Where(p => p.Id == id)
                            .SingleOrDefault();
-            if(data == null)
+            if (data == null)
             {
                 SetErrorMesg("Không tìm thấy");
                 return RedirectToAction(nameof(Index));
             }
             return View(data);
         }
+
     }
 }

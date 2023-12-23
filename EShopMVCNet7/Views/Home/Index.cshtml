@@ -18,7 +18,7 @@
     </style>
 }
 <a class="nav-link toolbar sidebar" href="/"><i class="bi bi-house-heart"></i> Home -> @ViewBag.Title</a>
-<div class="row mt-3">
+<div class="mt-3">
     <div id="carouselExampleIndicators" class="carousel slide my-3" data-bs-ride="carousel">
         <div class="carousel-inner">
             @for (int i = 0; i < Model.Count(); i++)
@@ -29,9 +29,9 @@
                 {
                     _class = "active";
                 }
-                <div class="carousel-item @_class">
+                <a asp-action="DetailProducts" asp-route-id="@item.Id" class="carousel-item @_class">
                     <img src="@item.CoverImg" class="d-block w-100" alt="..." style="height: 600px; object-fit:contain;">
-                </div>
+                </a>
             }
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -43,9 +43,10 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
+
     @*hiển thị sản phẩm*@
     <div class="container">
-        <h1 class="text-center display-6">Mới nhất</h1>
+        <h1 class="text-center display-6">@ViewBag.Title</h1>
         <div class="row row-cols-2 row-cols-lg-3 justify-content-md-center"
              style="background-color: rgba(234, 234, 234, 0.496);border-radius: 20px;padding: 0 21px;">
             @foreach (var item in Model)
@@ -55,8 +56,9 @@
                         <img src="@item.CoverImg" width=100% height="250px"
                              style="object-fit: cover;border-radius: 2px" />
                     </a>
+                    <hr/>
                     <div class="mt-3">
-                            <h5 class="card-title product-name">@item.Name</h5>
+                        <h5 class="card-title product-name">@item.Name</h5>
                         <span class="badge bg-info">@item.CategoryName</span>
                         @{
                             var isDiscount = false;
@@ -89,5 +91,21 @@
                 </div>
             }
         </div>
+    </div>
+
+    <div class="container mt-3">
+        <h1 class="text-center display-6 mt-3">SỰ KIỆN MỚI NHẤT</h1>
+        @*Hiển thị sự kiện*@
+        @foreach (var itemEven in ViewBag.Even)
+        {
+            <div>
+                @itemEven.NameEven
+                <img src="@itemEven.CoverImgEven" width=100% height="500"
+                     style="object-fit: cover;border-radius: 2px" />
+                @itemEven.ContentEven
+                @itemEven.DiscountFrom
+                @itemEven.DiscountTo
+            </div>
+        }
     </div>
 </div>

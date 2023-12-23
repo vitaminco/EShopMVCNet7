@@ -1,61 +1,4 @@
 ﻿@model IEnumerable<AppCategory>
-
-@*
-<nav class="navbar navbar-expand-lg navbar-light bg-danger-subtle shadow">
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="/"><i class="bi bi-house-heart"></i> Home</a>
-                </li>
-                @foreach (var item in Model)
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="Index" asp-route-slug="@item.Slug" asp-route-cateId="@item.Id">@item.Name</a>
-                    </li>
-                }
-                @if (Context.GetUserId() == null)
-                {//chưa đăng nhập
-                    <li class="nav-item">
-                        <a class="btn btn-outline-primary mx-2" asp-action="Register" asp-controller="Account">Đăng kí</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-outline-warning" asp-action="Login" asp-controller="Account">Đăng nhập</a>
-                    </li>
-                }
-                else
-                {
-                    if (Context.IsAdmin())
-                    {
-                        <li class="nav-item mx-2">
-                            <a class="btn btn-outline-success" asp-action="Index" asp-controller="Product" asp-area="Admin">
-                                <i class="bi bi-journal-text"></i>
-                                Trang quản lý
-                            </a>
-                        </li>
-                    }
-                    <li class="nav-item">
-                        <a class="btn btn-outline-danger" asp-action="Logout" asp-controller="Account">
-                            <i class="bi bi-box-arrow-right"></i>
-                            Đăng Xuất
-                        </a>
-                    </li>
-                }
-            </ul>
-            <div class="mx-2">
-                <a class="nav-link" asp-action="Index" asp-controller="Cart"><i class="bi bi-basket"></i> Giỏ hàng</a>
-            </div>
-            <form class="d-flex" role="search" asp-action="Search" asp-controller="Home" method="get">
-                <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
-            </form>
-        </div>
-    </div>
-</nav>
-
-*@
 <!---->
 <nav class="navbar navbar-expand-md navbar-light fixed-top shadow" style="background: #fffffff5;z-index:3;position: sticky;">
     <div class="container-fluid mx-5">
@@ -87,6 +30,7 @@
                         Giỏ hàng
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             <span class="visually-hidden">unread messages</span>
+                           
                         </span>
                     </a>
                 </div>

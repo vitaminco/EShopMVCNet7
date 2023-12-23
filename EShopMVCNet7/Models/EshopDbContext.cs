@@ -10,6 +10,7 @@ namespace EShopMVCNet7.Models
         public DbSet<AppProduct> AppProducts { get; set; }
         public DbSet<AppProductImage> AppProductImages { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<AppEvens> AppEvens { get; set; }
 
         public EshopDbContext(DbContextOptions options) : base(options)
         {
@@ -32,7 +33,7 @@ namespace EShopMVCNet7.Models
             modelBuilder.Entity<AppCategory>()
                         .Property(c => c.Slug)
                         .HasMaxLength(200);
-            
+
             //bảng AppProduct
             modelBuilder.Entity<AppProduct>()
                         .Property(m => m.Name)
@@ -55,6 +56,14 @@ namespace EShopMVCNet7.Models
                         .WithMany(m => m.Products) //bảng Category
                         .HasForeignKey(m => m.CategoryId) //khóa ngoại
                         .OnDelete(DeleteBehavior.NoAction);
+
+            //
+/*            modelBuilder.Entity<AppProduct>()
+                        .HasOne(m => m.Even) //bảng AppProduct
+                        .WithOne(m => m.EvenProducts) //bảng AppEven
+                        .HasForeignKey(m => m.EvenId) //khóa ngoại
+                        .OnDelete(DeleteBehavior.NoAction);*/
+
             //Bảng AppProductImage
             modelBuilder.Entity<AppProductImage>()
                         .Property(i => i.Path)
@@ -83,6 +92,16 @@ namespace EShopMVCNet7.Models
                 .HasMany(m => m.Detail)
                 .WithOne(m => m.AppOrder)
                 .HasForeignKey(m => m.OrderId);
+            //Bảng AppEvents
+            modelBuilder.Entity<AppEvens>()
+                        .Property(m => m.NameEven)
+                        .HasMaxLength(200);
+            modelBuilder.Entity<AppEvens>()
+                        .Property(m => m.ContentEven)
+                        .HasMaxLength(1000);
+            modelBuilder.Entity<AppEvens>()
+                       .Property(m => m.CoverImgEven)
+                       .HasMaxLength(1000);
         }
     }
 }

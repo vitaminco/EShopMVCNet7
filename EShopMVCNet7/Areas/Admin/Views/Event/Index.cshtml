@@ -1,0 +1,44 @@
+﻿@model IEnumerable<EShopMVCNet7.Areas.Admin.ViewModels.Event.EventsListItemVM>
+
+@{
+    ViewData["Title"] = "Sự kiện";
+}
+<div class="row">
+    <h1>Danh sách sự kiện</h1>
+
+    <table class="table table-bordered table-hover text-center">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Tên sự kiện</th>
+                <th>Hình ảnh</th>
+                <th>Nội dung</th>
+                <th>Từ ngày</th>
+                <th>Đến ngày</th>
+                <th>
+                    <a asp-action="Create" asp-controller="Event" class="btn btn-outline-primary"><i class="bi bi-plus-circle-dotted"></i> Tạo sự kiện</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.NameEven</td>
+                    <td class="text-center">
+                        <img src="@item.CoverImgEven" style="width:50px; height:50px;object-fit: cover" class="rounded rounded-circle shadow">
+                    </td>
+                    <td>@item.ContentEven</td>
+                    <td>@item.DiscountFrom</td>
+                    <td>@item.DiscountTo</td>
+                    <td>
+                        <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-success"><i class="bi bi-pencil-square"></i> Sửa</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Bạn có muốn xóa ?')" class="btn btn-danger"><i class="bi bi-trash"></i> Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <partial name="_Pager" model="Model" />
+</div>

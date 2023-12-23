@@ -1,0 +1,46 @@
+﻿@model EShopMVCNet7.Areas.Admin.ViewModels.Event.EventsUpdinVM
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h1>Update</h1>
+<hr />
+<div class="row">
+    <div class="">
+        <h1>Sửa sự kiện</h1>
+        <form asp-action="Update" method="post" enctype="multipart/form-data">
+            <!--enctype="multipart/form-data" có mới load file đc-->
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mt-3">
+                <label asp-for="CoverImgEven" class="control-label"></label>
+                <input asp-for="CoverImgEven" class="form-control" accept="image/*" /><!--accept="image/*" thu gọn file. hiển thị hình ảnh-->
+                <span asp-validation-for="CoverImgEven" class="text-danger"></span>
+            </div>
+            <div class="mt-3">
+                <label asp-for="NameEven" class="control-label"></label>
+                <input asp-for="NameEven" class="form-control" />
+                <span asp-validation-for="NameEven" class="text-danger"></span>
+            </div>
+            <div class="mt-3">
+                <label asp-for="ContentEven" class="control-label"></label>
+                <textarea asp-for="ContentEven" class="form-control" rows="10"></textarea>
+                <span asp-validation-for="ContentEven" class="text-danger"></span>
+            </div>
+            <div class="mt-3">
+                <label asp-for="DiscountFrom" class="control-label"></label>
+                <input asp-for="DiscountFrom" class="form-control" />
+                <span asp-validation-for="DiscountFrom" class="text-danger"></span>
+            </div>
+            <div class="mt-3">
+                <label asp-for="DiscountTo" class="control-label"></label>
+                <input asp-for="DiscountTo" class="form-control" />
+                <span asp-validation-for="DiscountTo" class="text-danger"></span>
+            </div>
+            <div class="mt-3">
+                <input type="submit" value="Thay đổi" class="btn btn-warning" />
+            </div>
+        </form>
+    </div>
+</div>
+

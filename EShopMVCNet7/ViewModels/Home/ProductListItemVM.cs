@@ -24,5 +24,6 @@ namespace EShopMVCNet7.ViewModels.Home
         public DateTime? DiscountTo { get; set; }
 
         public string CategoryName { get; set; }
+        public string NameEven { get; set; }
     }
 }
